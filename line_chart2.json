@@ -1,0 +1,68 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": {
+        "text": "Mean Electricity from Nuclear Power (TWh) Over Time"
+    },
+    "data": {
+        "url": "https://raw.githubusercontent.com/nwan0033/data_vis_II/main/global-data-on-sustainable-energy.csv"
+    },
+    "params": [
+        {
+            "name": "Year_Below",
+            "value": 2020,
+            "bind": {
+                "input": "range",
+                "min": 2000,
+                "max": 2020,
+                "step": 1,
+                "name": "Maximum Year: "
+            }
+        }
+    ],
+    "transform": [
+        {
+            "filter": "datum.Year < Year_Below"
+        },
+        {
+            "aggregate": [
+                {
+                    "op": "mean",
+                    "field": "Electricity from nuclear (TWh)",
+                    "as": "Mean Electricity from Nuclear Power"
+                }
+            ],
+            "groupby": [
+                "Year"
+            ]
+        }
+    ],
+    "encoding": {
+        "x": {
+            "field": "Year",
+            "type": "nominal",
+            "title": "Year"
+        },
+        "y": {
+            "field": "Mean Electricity from Nuclear Power",
+            "type": "quantitative"
+        }
+    },
+    "layer": [
+        {
+            "mark": "line",
+            "encoding": {
+                "tooltip": [
+                    {
+                        "field": "Mean Electricity from Nuclear Power",
+                        "type": "quantitative",
+                        "format": ".2f"
+                    },
+                    {
+                        "field": "Year",
+                        "type": "nominal"
+                    }
+                ]
+            }
+        }
+    ]
+}
